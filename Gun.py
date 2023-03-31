@@ -18,6 +18,8 @@ alarm_active = False
 pygame.init()
 alarm_sound = pygame.mixer.Sound('alarm.wav')
 
+frames_since_detection = 0
+
 while True:
 
     ret, frame = camera.read()
@@ -51,28 +53,23 @@ while True:
 
     if gun_exist:
         print("guns detected")
+        frames_since_detection += 1
         if not alarm_active:
             alarm_sound.play(-1)
             alarm_active = True
+        if frames_since_detection > 10:
+            screenshot = "screenshot.jpg"
+            cv2.imwrite(screenshot, frame)
+            bot.send_photo(chat_id=CHAT_ID, photo=open(screenshot, 'rb'))
+            frames_since_detection = 0
     else:
         print("guns NOT detected")
+        frames_since_detection = 0
         if alarm_active:
             alarm_sound.stop()
             alarm_active = False
 
     if key == ord('s'):
-        if alarm_active:
-            alarm_sound.stop()
-            alarm_active = False
-
-    if gun_exist:
-        print("guns detected")
-        bot.send_message(chat_id=CHAT_ID, text='Guns detected!')
-        if not alarm_active:
-            alarm_sound.play(-1)
-            alarm_active = True
-    else:
-        print("guns NOT detected")
         if alarm_active:
             alarm_sound.stop()
             alarm_active = False
