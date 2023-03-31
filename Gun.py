@@ -5,8 +5,8 @@ import telegram
 import datetime
 import pygame
 
-bot = telegram.Bot(token= '5844984312:AAF7vPopMgywe9UTH1gfNefAxFHgCKhHiUM')
-CHAT_ID = 917130524
+bot = telegram.Bot(token= 'Your_Own_Token')
+CHAT_ID = 'Your_Chat_ID'
 
 gun_cascade = cv2.CascadeClassifier('cascade.xml')
 camera = cv2.VideoCapture(0)
