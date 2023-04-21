@@ -53,5 +53,5 @@ Finally, the script releases the camera, closes the window, and quits Pygame.</p
 <h1>License</h1>
 <p>This project is licensed under the MIT License - see the LICENSE file for details.</p>
 <h1>Acknowledgements</h1>
-<p>This project was made by Alexis Valentino for the Project Bagsik "Iot powered smart security surveillance system with Threat Detection (Weapons, Anomaly, Behavior Detection), Android Monitoring app and Night Vision capabilities."
+<p>The project was made by Alexis Valentino for the Project Bagsik "Iot powered smart security surveillance system with Threat Detection (Weapons, Anomaly, Behavior Detection), Android Monitoring app and Night Vision capabilities."
 
