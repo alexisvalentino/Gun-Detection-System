@@ -1,17 +1,21 @@
 import numpy as np
 import cv2
 import imutils
-import telegram
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
 import datetime
 import pygame
 
-bot = telegram.Bot(token= 'Your_Own_Token')
-CHAT_ID = 'Your_Chat_ID'
+FROM_EMAIL = 'f6866666@gmail.com'
+FROM_PASSWORD = 'callktgjyogxqbwl'
+TO_EMAIL = 'alexis01valentino@gmail.com'
 
 gun_cascade = cv2.CascadeClassifier('cascade.xml')
 camera = cv2.VideoCapture(0)
 
-firstFrame = None
+firstFrame = None   
 gun_exist = False
 alarm_active = False
 
@@ -60,7 +64,21 @@ while True:
         if frames_since_detection > 10:
             screenshot = "screenshot.jpg"
             cv2.imwrite(screenshot, frame)
-            bot.send_photo(chat_id=CHAT_ID, photo=open(screenshot, 'rb'))
+            msg = MIMEMultipart()
+            msg['From'] = FROM_EMAIL
+            msg['To'] = TO_EMAIL
+            msg['Subject'] = 'Gun Detected'
+            text = MIMEText("Gun detected at " + datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S %p"))
+            msg.attach(text)
+            with open(screenshot, 'rb') as f:
+                img = MIMEImage(f.read())
+            img.add_header('Content-Disposition', 'attachment', filename="screenshot.jpg")
+            msg.attach(img)
+            server = smtplib.SMTP('smtp.gmail.com', 587)
+            server.starttls()
+            server.login(FROM_EMAIL, FROM_PASSWORD)
+            server.sendmail(FROM_EMAIL, TO_EMAIL, msg.as_string())
+            server.quit()
             frames_since_detection = 0
     else:
         print("guns NOT detected")
